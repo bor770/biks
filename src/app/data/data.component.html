@@ -1,7 +1,7 @@
-<ng-container *ngrxLet="isRowSelected$ as isRowSelected">
+<ng-container *ngrxLet="selectedRow$ as selectedRow">
   <app-data-header />
   <app-data-table />
-  @if (isRowSelected) {
-    <app-data-details />
+  @if (selectedRow >= 0) {
+    <app-data-details [selectedRow]="selectedRow" />
   }
 </ng-container>

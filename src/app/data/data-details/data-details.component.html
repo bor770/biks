@@ -1,14 +1,14 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <h2>Details</h2>
-  <mat-form-field>
+  <mat-form-field hideRequiredMarker>
     <mat-label>Id</mat-label>
-    <input matInput formControlName="id" type="number" />
+    <input matInput formControlName="studentId" type="number" />
   </mat-form-field>
   <mat-form-field>
     <mat-label>Name</mat-label>
     <input matInput formControlName="name" />
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field hideRequiredMarker>
     <mat-label>Grade</mat-label>
     <input matInput formControlName="grade" type="number" />
   </mat-form-field>
@@ -38,8 +38,9 @@
     <mat-label>Zip</mat-label>
     <input matInput formControlName="zip" />
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field hideRequiredMarker>
     <mat-label>Subject</mat-label>
     <input matInput formControlName="subject" />
   </mat-form-field>
+  <button mat-raised-button>Save</button>
 </form>

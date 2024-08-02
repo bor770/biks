@@ -22,10 +22,10 @@ import * as DataSelectors from './store/data.selectors';
   styleUrl: './data.component.css',
 })
 export class DataComponent implements OnInit {
-  isRowSelected$!: Observable<boolean>;
+  selectedRow$!: Observable<number>;
   store = inject(Store);
 
   ngOnInit(): void {
-    this.isRowSelected$ = this.store.select(DataSelectors.selectIsRowSelected);
+    this.selectedRow$ = this.store.select(DataSelectors.selectSelectedRow);
   }
 }

@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { DeployedExamResult } from '../data.model';
+import * as DataActions from '../store/data.actions';
+import * as DataSelectors from '../store/data.selectors';
 import * as ResultsSelectors from '../../shared/results/store/results.selectors';
 
 @Component({
@@ -17,11 +19,20 @@ import * as ResultsSelectors from '../../shared/results/store/results.selectors'
 export class DataTableComponent implements OnInit {
   displayedColumns = [`id`, `name`, `date`, `grade`, `subject`];
   examResults$!: Observable<DeployedExamResult[]>;
+  selectedRow$!: Observable<number>;
   store = inject(Store);
 
   ngOnInit(): void {
-    this.examResults$ = this.store.select(
+    const store = this.store;
+
+    this.examResults$ = store.select(
       ResultsSelectors.selectDeployedExamResults,
     );
+    this.examResults$.subscribe(console.log);
+    this.selectedRow$ = store.select(DataSelectors.selectSelectedRow);
+  }
+
+  onSelectRow(index: number) {
+    this.store.dispatch(DataActions.selectRow({ index }));
   }
 }

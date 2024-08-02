@@ -12,7 +12,7 @@ const initialState: State = { examResults: [], students: [] };
 
 const pick = (object: object, keys: unknown[]) =>
   Object.fromEntries(
-    Object.entries(object).filter(([key]) => keys.includes(key))
+    Object.entries(object).filter(([key]) => keys.includes(key)),
   );
 
 export const reducer = createReducer(
@@ -22,7 +22,7 @@ export const reducer = createReducer(
     (state): State => ({
       ...state,
       examResults: state.examResults.concat(undefined),
-    })
+    }),
   ),
   on(ResultsActions.remove, (state, action): State => {
     const newExamResults = state.examResults.toSpliced(action.index, 1);
@@ -32,23 +32,27 @@ export const reducer = createReducer(
       examResults: newExamResults,
       students: pick(
         state.students,
-        newExamResults.map((examResult) => examResult?.studentId)
+        newExamResults.map((examResult) => examResult?.studentId),
       ),
     };
   }),
   on(ResultsActions.save, (state, action): State => {
-    const newResult = pick(action.newResult, [
+    const currentResults = state.examResults;
+    const actionParamResult = action.newResult;
+    const newResult = pick(actionParamResult, [
       `grade`,
       `studentId`,
       `subject`,
     ]) as ExamResult;
-
+    console.log(actionParamResult);
     return {
       ...state,
-      examResults: state.examResults.concat(newResult),
+      examResults: currentResults.map((result, index) =>
+        index === action.index ? newResult : currentResults[index],
+      ),
       students: {
         ...state.students,
-        [newResult.studentId]: pick(action.newResult, [
+        [newResult.studentId]: pick(actionParamResult, [
           `address`,
           `city`,
           `country`,
@@ -59,5 +63,5 @@ export const reducer = createReducer(
         ]) as StudentData,
       },
     };
-  })
+  }),
 );
