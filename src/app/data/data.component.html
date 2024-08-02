@@ -1,0 +1,7 @@
+<ng-container *ngrxLet="isRowSelected$ as isRowSelected">
+  <app-data-header />
+  <app-data-table />
+  @if (isRowSelected) {
+    <app-data-details />
+  }
+</ng-container>
