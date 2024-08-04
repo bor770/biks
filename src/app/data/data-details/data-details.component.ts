@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, input } from '@angular/core';
+import { Component, OnInit, effect, input } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Store } from '@ngrx/store';
 
 import * as ResultsActions from '../../shared/results/store/results.actions';
+import { DeployedExamResult } from '../data.model';
 
 @Component({
   selector: 'app-data-details',
@@ -28,22 +29,43 @@ import * as ResultsActions from '../../shared/results/store/results.actions';
   styleUrl: './data-details.component.css',
 })
 export class DataDetailsComponent implements OnInit {
+  examResult = input.required<DeployedExamResult>();
   form!: FormGroup;
+  realIndex = input.required<number>();
   selectedRow = input.required<number>();
-  store = inject(Store);
+
+  constructor(private store: Store) {
+    effect(() => {
+      const formControls = this.form.controls;
+      const examResult = this.examResult();
+
+      formControls['address'].setValue(examResult?.address);
+      formControls['city'].setValue(examResult?.city);
+      formControls['country'].setValue(examResult?.country);
+      formControls['dateJoined'].setValue(examResult?.dateJoined);
+      formControls['studentId'].setValue(examResult?.studentId);
+      formControls['email'].setValue(examResult?.email);
+      formControls['grade'].setValue(examResult?.grade);
+      formControls['name'].setValue(examResult?.name);
+      formControls['subject'].setValue(examResult?.subject);
+      formControls['zip'].setValue(examResult?.zip);
+    });
+  }
 
   ngOnInit(): void {
+    const examResult = this.examResult();
+
     this.form = new FormGroup({
-      address: new FormControl(null),
-      city: new FormControl(null),
-      country: new FormControl(null),
-      dateJoined: new FormControl(null),
-      studentId: new FormControl(null, Validators.required),
-      email: new FormControl(null),
-      grade: new FormControl(null, Validators.required),
-      name: new FormControl(null),
-      subject: new FormControl(null, Validators.required),
-      zip: new FormControl(null),
+      address: new FormControl(examResult?.address),
+      city: new FormControl(examResult?.city),
+      country: new FormControl(examResult?.country),
+      dateJoined: new FormControl(examResult?.dateJoined),
+      studentId: new FormControl(examResult?.studentId, Validators.required),
+      email: new FormControl(examResult?.email),
+      grade: new FormControl(examResult?.grade, Validators.required),
+      name: new FormControl(examResult?.name),
+      subject: new FormControl(examResult?.subject, Validators.required),
+      zip: new FormControl(examResult?.zip),
     });
   }
 
@@ -53,7 +75,7 @@ export class DataDetailsComponent implements OnInit {
     if (form.valid) {
       this.store.dispatch(
         ResultsActions.save({
-          index: this.selectedRow(),
+          index: this.realIndex(),
           newResult: form.value,
         }),
       );

@@ -8,7 +8,7 @@ export interface State {
   students: Students;
 }
 
-const initialState: State = { examResults: [], students: [] };
+const initialState: State = { examResults: [], students: {} };
 
 const pick = (object: object, keys: unknown[]) =>
   Object.fromEntries(
@@ -44,7 +44,7 @@ export const reducer = createReducer(
       `studentId`,
       `subject`,
     ]) as ExamResult;
-    console.log(actionParamResult);
+
     return {
       ...state,
       examResults: currentResults.map((result, index) =>

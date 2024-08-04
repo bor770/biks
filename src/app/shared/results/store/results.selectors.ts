@@ -7,8 +7,10 @@ export const selectState = createFeatureSelector<fromResults.State>(`results`);
 
 export const selectDeployedExamResults = createSelector(selectState, (state) =>
   state.examResults.map(
-    (result): DeployedExamResult =>
-      result ? { ...result, ...state.students[result.studentId] } : undefined,
+    (result, index): DeployedExamResult =>
+      result
+        ? { ...result, ...state.students[result.studentId], index }
+        : undefined,
   ),
 );
 

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { map } from 'rxjs';
+import { filter, map } from 'rxjs';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
@@ -13,7 +13,7 @@ import * as ResultsSelectors from '../../shared/results/store/results.selectors'
 export class DataEffects {
   actions$ = inject(Actions);
   store = inject(Store);
-  setSelectedRow = createEffect(() => {
+  setSelectedRowOnAdd = createEffect(() => {
     return this.actions$.pipe(
       ofType(ResultsActions.add),
       concatLatestFrom(() =>
@@ -22,6 +22,16 @@ export class DataEffects {
       map(([, amountOfResults]) =>
         DataActions.selectRow({ index: amountOfResults - 1 }),
       ),
+    );
+  });
+  removeSelectedRowOnRemove = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ResultsActions.remove),
+      concatLatestFrom(() =>
+        this.store.select(ResultsSelectors.selectAmountOfResults),
+      ),
+      filter(([, amountOfResults]) => !amountOfResults),
+      map(() => DataActions.selectRow({ index: -1 })),
     );
   });
 }

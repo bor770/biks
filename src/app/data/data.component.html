@@ -1,7 +1,17 @@
-<ng-container *ngrxLet="selectedRow$ as selectedRow">
+<ng-container
+  *ngrxLet="{
+    realIndex: realIndex$,
+    paginatedResults: paginatedResults$,
+    selectedRow: selectedRow$,
+  } as observables"
+>
   <app-data-header />
   <app-data-table />
-  @if (selectedRow >= 0) {
-    <app-data-details [selectedRow]="selectedRow" />
+  @if (observables.selectedRow >= 0) {
+    <app-data-details
+      [examResult]="observables.paginatedResults[observables.selectedRow]"
+      [realIndex]="observables.realIndex"
+      [selectedRow]="observables.selectedRow"
+    />
   }
 </ng-container>

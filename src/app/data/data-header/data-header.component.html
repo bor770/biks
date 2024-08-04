@@ -1,8 +1,10 @@
 <header>
   <mat-form-field>
     <mat-label>Filter</mat-label>
-    <input matInput />
+    <input matInput (keyup.enter)="onFilter($event)" />
   </mat-form-field>
   <button mat-raised-button (click)="onAdd()">Add</button>
-  <button mat-raised-button>Remove</button>
+  <ng-container *ngrxLet="selectedRow$ as selectedRow">
+    <button mat-raised-button (click)="onRemove(selectedRow)">Remove</button>
+  </ng-container>
 </header>
