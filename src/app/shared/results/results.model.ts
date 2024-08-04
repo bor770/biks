@@ -1,4 +1,4 @@
-export interface ExamResult {
+export interface Result {
   grade: number;
   studentId: number;
   subject: string;

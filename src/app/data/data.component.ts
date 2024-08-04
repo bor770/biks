@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { DataDetailsComponent } from './data-details/data-details.component';
 import { DataHeaderComponent } from './data-header/data-header.component';
 import { DataTableComponent } from './data-table/data-table.component';
-import { DeployedExamResult } from './data.model';
+import { DeployedResult } from './data.model';
 import * as DataSelectors from './store/data.selectors';
 
 @Component({
@@ -23,15 +23,13 @@ import * as DataSelectors from './store/data.selectors';
   styleUrl: './data.component.css',
 })
 export class DataComponent implements OnInit {
-  realIndex$!: Observable<number>;
-  paginatedResults$!: Observable<DeployedExamResult[]>;
+  paginatedResults$!: Observable<DeployedResult[]>;
   selectedRow$!: Observable<number>;
   store = inject(Store);
 
   ngOnInit(): void {
     const store = this.store;
 
-    this.realIndex$ = store.select(DataSelectors.selectRealIndex);
     this.paginatedResults$ = store.select(DataSelectors.selectPaginatedResults);
     this.selectedRow$ = store.select(DataSelectors.selectSelectedRow);
   }

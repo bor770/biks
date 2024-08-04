@@ -1,9 +1,11 @@
-import { ExamResult, StudentData } from '../shared/results/results.model';
+import { Result, StudentData } from '../shared/results/results.model';
 
-export interface FullDeployedExamResult extends ExamResult, StudentData {
+interface Index {
   index: number;
 }
 
-export type DeployedExamResult = FullDeployedExamResult | undefined;
+export interface FullDeployedResult extends Index, Result, StudentData {}
+
+export type DeployedResult = Partial<FullDeployedResult>;
 
 export const PAGE_SIZE = 10;

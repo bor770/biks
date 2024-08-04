@@ -8,13 +8,13 @@ import { Observable } from 'rxjs';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
-import { DeployedExamResult } from '../data.model';
+import { DeployedResult } from '../data.model';
 import * as DataActions from '../store/data.actions';
 import * as DataSelectors from '../store/data.selectors';
 import * as ResultsSelectors from '../../shared/results/store/results.selectors';
 
-class ResultsDataSource extends DataSource<DeployedExamResult> {
-  constructor(private results$: Observable<DeployedExamResult[]>) {
+class ResultsDataSource extends DataSource<DeployedResult> {
+  constructor(private results$: Observable<DeployedResult[]>) {
     super();
   }
 

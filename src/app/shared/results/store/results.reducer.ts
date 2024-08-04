@@ -1,66 +1,45 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { ExamResult, StudentData, Students } from '../results.model';
+import { Result, Students } from '../results.model';
+import { pick } from '../../util/pick';
 import * as ResultsActions from './results.actions';
 
 export interface State {
-  examResults: (ExamResult | undefined)[];
+  results: (Result | undefined)[];
   students: Students;
 }
 
-const initialState: State = { examResults: [], students: {} };
-
-const pick = (object: object, keys: unknown[]) =>
-  Object.fromEntries(
-    Object.entries(object).filter(([key]) => keys.includes(key)),
-  );
+const initialState: State = { results: [], students: {} };
 
 export const reducer = createReducer(
   initialState,
   on(
     ResultsActions.add,
-    (state): State => ({
-      ...state,
-      examResults: state.examResults.concat(undefined),
-    }),
+    (state): State => ({ ...state, results: state.results.concat(undefined) }),
   ),
   on(ResultsActions.remove, (state, action): State => {
-    const newExamResults = state.examResults.toSpliced(action.index, 1);
+    const newResults = state.results.toSpliced(action.index, 1);
 
     return {
       ...state,
-      examResults: newExamResults,
+      results: newResults,
       students: pick(
         state.students,
-        newExamResults.map((examResult) => examResult?.studentId),
+        newResults.map((result) => result?.studentId),
       ),
     };
   }),
   on(ResultsActions.save, (state, action): State => {
-    const currentResults = state.examResults;
-    const actionParamResult = action.newResult;
-    const newResult = pick(actionParamResult, [
-      `grade`,
-      `studentId`,
-      `subject`,
-    ]) as ExamResult;
+    const newResult = action.newResult;
 
     return {
       ...state,
-      examResults: currentResults.map((result, index) =>
-        index === action.index ? newResult : currentResults[index],
+      results: state.results.map((result, index) =>
+        index === action.index ? newResult : result,
       ),
       students: {
         ...state.students,
-        [newResult.studentId]: pick(actionParamResult, [
-          `address`,
-          `city`,
-          `country`,
-          `dateJoined`,
-          `email`,
-          `name`,
-          `zip`,
-        ]) as StudentData,
+        [newResult.studentId]: action.newStudentData,
       },
     };
   }),

@@ -1,8 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { PAGE_SIZE } from '../data.model';
-import * as fromData from './data.reducer';
 import * as ResultsSelectors from '../../shared/results/store/results.selectors';
+import * as fromData from './data.reducer';
 
 const parseFilter = (filterString: string) => {
   const keys = [
@@ -36,7 +36,7 @@ export const selectFilterString = createSelector(
 
 export const selectFilteredResults = createSelector(
   selectFilterString,
-  ResultsSelectors.selectDeployedExamResults,
+  ResultsSelectors.selectDeployedResults,
   (filterString, results) => {
     if (!filterString) {
       return results;
@@ -69,18 +69,13 @@ export const selectPageIndex = createSelector(
 export const selectPaginatedResults = createSelector(
   selectState,
   ResultsSelectors.selectAmountOfResults,
-  ResultsSelectors.selectDeployedExamResults,
+  ResultsSelectors.selectDeployedResults,
   (state, amountOfResults, deployedResults) => {
     const start = state.pageIndex * PAGE_SIZE;
     const end = Math.min(start + PAGE_SIZE, amountOfResults);
 
     return deployedResults.slice(start, end);
   },
-);
-
-export const selectRealIndex = createSelector(
-  selectState,
-  (state) => state.pageIndex * PAGE_SIZE + state.selectedRow,
 );
 
 export const selectSelectedRow = createSelector(

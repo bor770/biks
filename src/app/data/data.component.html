@@ -1,6 +1,5 @@
 <ng-container
   *ngrxLet="{
-    realIndex: realIndex$,
     paginatedResults: paginatedResults$,
     selectedRow: selectedRow$,
   } as observables"
@@ -9,8 +8,7 @@
   <app-data-table />
   @if (observables.selectedRow >= 0) {
     <app-data-details
-      [examResult]="observables.paginatedResults[observables.selectedRow]"
-      [realIndex]="observables.realIndex"
+      [result]="observables.paginatedResults[observables.selectedRow]"
       [selectedRow]="observables.selectedRow"
     />
   }

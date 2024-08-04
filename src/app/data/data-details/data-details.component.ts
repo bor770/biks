@@ -12,8 +12,8 @@ import { MatInputModule } from '@angular/material/input';
 
 import { Store } from '@ngrx/store';
 
-import * as ResultsActions from '../../shared/results/store/results.actions';
-import { DeployedExamResult } from '../data.model';
+import { DeployedResult } from '../data.model';
+import * as DataActions from '../store/data.actions';
 
 @Component({
   selector: 'app-data-details',
@@ -29,43 +29,42 @@ import { DeployedExamResult } from '../data.model';
   styleUrl: './data-details.component.css',
 })
 export class DataDetailsComponent implements OnInit {
-  examResult = input.required<DeployedExamResult>();
+  result = input.required<DeployedResult>();
   form!: FormGroup;
-  realIndex = input.required<number>();
   selectedRow = input.required<number>();
 
   constructor(private store: Store) {
     effect(() => {
       const formControls = this.form.controls;
-      const examResult = this.examResult();
+      const result = this.result();
 
-      formControls['address'].setValue(examResult?.address);
-      formControls['city'].setValue(examResult?.city);
-      formControls['country'].setValue(examResult?.country);
-      formControls['dateJoined'].setValue(examResult?.dateJoined);
-      formControls['studentId'].setValue(examResult?.studentId);
-      formControls['email'].setValue(examResult?.email);
-      formControls['grade'].setValue(examResult?.grade);
-      formControls['name'].setValue(examResult?.name);
-      formControls['subject'].setValue(examResult?.subject);
-      formControls['zip'].setValue(examResult?.zip);
+      formControls['address'].setValue(result?.address);
+      formControls['city'].setValue(result?.city);
+      formControls['country'].setValue(result?.country);
+      formControls['dateJoined'].setValue(result?.dateJoined);
+      formControls['studentId'].setValue(result?.studentId);
+      formControls['email'].setValue(result?.email);
+      formControls['grade'].setValue(result?.grade);
+      formControls['name'].setValue(result?.name);
+      formControls['subject'].setValue(result?.subject);
+      formControls['zip'].setValue(result?.zip);
     });
   }
 
   ngOnInit(): void {
-    const examResult = this.examResult();
+    const result = this.result();
 
     this.form = new FormGroup({
-      address: new FormControl(examResult?.address),
-      city: new FormControl(examResult?.city),
-      country: new FormControl(examResult?.country),
-      dateJoined: new FormControl(examResult?.dateJoined),
-      studentId: new FormControl(examResult?.studentId, Validators.required),
-      email: new FormControl(examResult?.email),
-      grade: new FormControl(examResult?.grade, Validators.required),
-      name: new FormControl(examResult?.name),
-      subject: new FormControl(examResult?.subject, Validators.required),
-      zip: new FormControl(examResult?.zip),
+      address: new FormControl(result?.address),
+      city: new FormControl(result?.city),
+      country: new FormControl(result?.country),
+      dateJoined: new FormControl(result?.dateJoined),
+      studentId: new FormControl(result?.studentId, Validators.required),
+      email: new FormControl(result?.email),
+      grade: new FormControl(result?.grade, Validators.required),
+      name: new FormControl(result?.name),
+      subject: new FormControl(result?.subject, Validators.required),
+      zip: new FormControl(result?.zip),
     });
   }
 
@@ -74,9 +73,8 @@ export class DataDetailsComponent implements OnInit {
 
     if (form.valid) {
       this.store.dispatch(
-        ResultsActions.save({
-          index: this.realIndex(),
-          newResult: form.value,
+        DataActions.saveDeployedResult({
+          result: { ...form.value, index: this.result().index },
         }),
       );
     }

@@ -12,13 +12,14 @@ import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { DataEffects } from './data/store/data.effects';
+import { ResultsEffects } from './shared/results/store/results.effects';
 import { rootReducer } from './store/root.reducer';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimationsAsync(),
-    provideEffects(DataEffects),
+    provideEffects(DataEffects, ResultsEffects),
     provideNativeDateAdapter(),
     provideRouter(routes),
     provideStore(rootReducer),
