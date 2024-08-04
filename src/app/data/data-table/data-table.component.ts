@@ -8,10 +8,9 @@ import { Observable } from 'rxjs';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
-import { DeployedResult } from '../data.model';
+import { DeployedResult, PAGE_SIZE } from '../data.model';
 import * as DataActions from '../store/data.actions';
 import * as DataSelectors from '../store/data.selectors';
-import * as ResultsSelectors from '../../shared/results/store/results.selectors';
 
 class ResultsDataSource extends DataSource<DeployedResult> {
   constructor(private results$: Observable<DeployedResult[]>) {
@@ -34,9 +33,11 @@ class ResultsDataSource extends DataSource<DeployedResult> {
   styleUrl: './data-table.component.css',
 })
 export class DataTableComponent implements OnInit {
+  PAGE_SIZE = PAGE_SIZE;
   amountOfResults$!: Observable<number>;
   dataSource!: ResultsDataSource;
   displayedColumns = [`id`, `name`, `date`, `grade`, `subject`];
+  // pageIndex$!: Observable<number>;
   store = inject(Store);
   selectedRow$!: Observable<number>;
 
@@ -47,8 +48,9 @@ export class DataTableComponent implements OnInit {
       store.select(DataSelectors.selectPaginatedResults),
     );
     this.amountOfResults$ = store.select(
-      ResultsSelectors.selectAmountOfResults,
+      DataSelectors.selectAmountOfFilteredResults,
     );
+    // this.pageIndex$ = store.select(DataSelectors.selectPageIndex);
     this.selectedRow$ = store.select(DataSelectors.selectSelectedRow);
   }
 

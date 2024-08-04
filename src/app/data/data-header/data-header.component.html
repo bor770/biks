@@ -1,10 +1,17 @@
-<header>
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup.enter)="onFilter($event)" />
-  </mat-form-field>
-  <button mat-raised-button (click)="onAdd()">Add</button>
-  <ng-container *ngrxLet="selectedRow$ as selectedRow">
-    <button mat-raised-button (click)="onRemove(selectedRow)">Remove</button>
-  </ng-container>
-</header>
+<ng-container
+  *ngrxLet="{ pageIndex: pageIndex$, selectedRow: selectedRow$ } as observables"
+>
+  <header>
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup.enter)="onFilter($event)" />
+    </mat-form-field>
+    <button mat-raised-button (click)="onAdd()">Add</button>
+    <button
+      mat-raised-button
+      (click)="onRemove(observables.pageIndex, observables.selectedRow)"
+    >
+      Remove
+    </button>
+  </header>
+</ng-container>

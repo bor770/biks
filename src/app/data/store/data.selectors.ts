@@ -27,6 +27,17 @@ const parseFilter = (filterString: string) => {
   return keys.includes(key) ? [key, filterParts.slice(1).join(`:`)] : null;
 };
 
+const transformKey = (key: string) => {
+  switch (key) {
+    case `id`:
+      return `studentId`;
+    case `date`:
+      return `dateJoined`;
+    default:
+      return key;
+  }
+};
+
 export const selectState = createFeatureSelector<fromData.State>(`data`);
 
 export const selectFilterString = createSelector(
@@ -45,15 +56,63 @@ export const selectFilteredResults = createSelector(
 
       if (parsedFilter) {
         const key = parsedFilter[0];
+        const value = parsedFilter[1];
+        const realValue = value.slice(1);
 
-        return results.filter(
-          (result) => result![key as keyof typeof result] === parsedFilter[1],
-        );
+        return results.filter((result) => {
+          if (key !== `date`) {
+            if (
+              key !== `grade` ||
+              (!value.startsWith(`<`) && !value.startsWith(`>`))
+            ) {
+              return (
+                result?.[
+                  transformKey(key) as keyof typeof result
+                ]?.toString() === value
+              );
+            } else {
+              const grade = result?.grade;
+
+              if (value.startsWith(`<`)) {
+                return grade && grade < +realValue;
+              }
+
+              if (value.startsWith(`>`)) {
+                return grade && grade > +realValue;
+              }
+
+              return;
+            }
+          } else {
+            const date = result.dateJoined;
+            const realDate = new Date(realValue);
+
+            if (value.startsWith(`<`)) {
+              return date && date < realDate;
+            }
+
+            if (value.startsWith(`>`)) {
+              return date && date > realDate;
+            }
+
+            const dateToCompare = new Date(value);
+
+            date?.setHours(0);
+            dateToCompare.setHours(0);
+            console.log(date, dateToCompare);
+            return date?.getTime() === dateToCompare.getTime();
+          }
+        });
       } else {
         return [];
       }
     }
   },
+);
+
+export const selectAmountOfFilteredResults = createSelector(
+  selectFilteredResults,
+  (results) => results.length,
 );
 
 export const selectIsRowSelected = createSelector(
@@ -68,13 +127,13 @@ export const selectPageIndex = createSelector(
 
 export const selectPaginatedResults = createSelector(
   selectState,
-  ResultsSelectors.selectAmountOfResults,
-  ResultsSelectors.selectDeployedResults,
-  (state, amountOfResults, deployedResults) => {
+  selectAmountOfFilteredResults,
+  selectFilteredResults,
+  (state, amountOfResults, filteredResults) => {
     const start = state.pageIndex * PAGE_SIZE;
     const end = Math.min(start + PAGE_SIZE, amountOfResults);
 
-    return deployedResults.slice(start, end);
+    return filteredResults.slice(start, end);
   },
 );
 

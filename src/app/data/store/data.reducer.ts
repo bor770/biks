@@ -12,17 +12,28 @@ const initalState: State = { filterString: ``, pageIndex: 0, selectedRow: -1 };
 
 export const reducer = createReducer(
   initalState,
-  on(DataActions.filter, (state, action) => ({
-    ...state,
-    filter: action.filterString,
-  })),
-  on(DataActions.pageEvent, (state, action) => ({
-    ...state,
-    pageIndex: action.pageIndex,
-    selectedRow: -1,
-  })),
-  on(DataActions.selectRow, (state, action) => ({
-    ...state,
-    selectedRow: action.index,
-  })),
+  on(
+    DataActions.filter,
+    (state, action): State => ({
+      ...state,
+      filterString: action.filterString,
+      pageIndex: 0,
+      selectedRow: -1,
+    }),
+  ),
+  on(
+    DataActions.pageEvent,
+    (state, action): State => ({
+      ...state,
+      pageIndex: action.pageIndex,
+      selectedRow: -1,
+    }),
+  ),
+  on(
+    DataActions.selectRow,
+    (state, action): State => ({
+      ...state,
+      selectedRow: action.index,
+    }),
+  ),
 );

@@ -24,7 +24,7 @@ export class ResultsEffects {
       ),
     );
   });
-  removeSelectedRowOnRemove = createEffect(() => {
+  resetSelectedRowOnRemove = createEffect(() => {
     return this.actions$.pipe(
       ofType(ResultsActions.remove),
       concatLatestFrom(() =>
