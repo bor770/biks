@@ -1,0 +1,8 @@
+:host {
+  display: grid;
+  grid-template-areas:
+    "header header "
+    "table  details";
+  grid-template-columns: 1fr 15rem;
+  margin: 3rem;
+}

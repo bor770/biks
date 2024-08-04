@@ -1,0 +1,17 @@
+:host {
+  grid-area: details;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+}
+
+h2 {
+  text-align: center;
+}
+
+button {
+  align-self: center;
+}

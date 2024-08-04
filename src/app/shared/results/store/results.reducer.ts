@@ -25,7 +25,7 @@ export const reducer = createReducer(
       results: newResults,
       students: pick(
         state.students,
-        newResults.map((result) => result?.studentId),
+        newResults.map((result) => String(result?.studentId)),
       ),
     };
   }),
