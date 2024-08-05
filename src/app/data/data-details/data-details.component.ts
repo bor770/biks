@@ -41,6 +41,7 @@ export class DataDetailsComponent implements OnInit {
       formControls['address'].setValue(result?.address);
       formControls['city'].setValue(result?.city);
       formControls['country'].setValue(result?.country);
+      formControls['date'].setValue(result?.date);
       formControls['dateJoined'].setValue(result?.dateJoined);
       formControls['studentId'].setValue(result?.studentId);
       formControls['email'].setValue(result?.email);
@@ -58,6 +59,7 @@ export class DataDetailsComponent implements OnInit {
       address: new FormControl(result?.address),
       city: new FormControl(result?.city),
       country: new FormControl(result?.country),
+      date: new FormControl(result?.date),
       dateJoined: new FormControl(result?.dateJoined),
       studentId: new FormControl(result?.studentId, Validators.required),
       email: new FormControl(result?.email),

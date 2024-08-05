@@ -13,14 +13,30 @@
     <input matInput formControlName="grade" type="number" />
   </mat-form-field>
   <mat-form-field class="field">
+    <mat-label>Date</mat-label>
+    <input matInput formControlName="date" [matDatepicker]="datePicker" />
+    <mat-datepicker-toggle
+      matIconSuffix
+      [for]="datePicker"
+    ></mat-datepicker-toggle>
+    <mat-datepicker #datePicker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field class="field">
     <mat-label>Email</mat-label>
     <input matInput formControlName="email" type="email" />
   </mat-form-field>
   <mat-form-field class="field">
     <mat-label>Date Joined</mat-label>
-    <input matInput formControlName="dateJoined" [matDatepicker]="picker" />
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
+    <input
+      matInput
+      formControlName="dateJoined"
+      [matDatepicker]="joinedPicker"
+    />
+    <mat-datepicker-toggle
+      matIconSuffix
+      [for]="joinedPicker"
+    ></mat-datepicker-toggle>
+    <mat-datepicker #joinedPicker></mat-datepicker>
   </mat-form-field>
   <mat-form-field class="field">
     <mat-label>Address</mat-label>

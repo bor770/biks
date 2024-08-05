@@ -1,4 +1,5 @@
 export interface Result {
+  date: Date;
   grade: number;
   studentId: number;
   subject: string;

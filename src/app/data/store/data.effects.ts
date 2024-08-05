@@ -21,6 +21,7 @@ export class DataEffects {
         return ResultsActions.save({
           index: fullNewResult.index,
           newResult: pick(fullNewResult, [
+            `date`,
             `grade`,
             `studentId`,
             `subject`,

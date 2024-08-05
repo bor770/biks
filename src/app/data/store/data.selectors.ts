@@ -31,8 +31,6 @@ const transformKey = (key: string) => {
   switch (key) {
     case `id`:
       return `studentId`;
-    case `date`:
-      return `dateJoined`;
     default:
       return key;
   }
@@ -53,7 +51,7 @@ export const selectFilteredResults = createSelector(
       return results;
     } else {
       const parsedFilter = parseFilter(filterString);
-      console.log(parsedFilter);
+
       if (parsedFilter) {
         const key = parsedFilter[0];
         const value = parsedFilter[1];
@@ -84,7 +82,7 @@ export const selectFilteredResults = createSelector(
               return;
             }
           } else {
-            const date = result.dateJoined;
+            const date = result.date;
             const realDate = new Date(realValue);
 
             if (value.startsWith(`<`)) {
@@ -99,7 +97,7 @@ export const selectFilteredResults = createSelector(
 
             date?.setHours(0);
             dateToCompare.setHours(0);
-            console.log(date, dateToCompare);
+
             return date?.getTime() === dateToCompare.getTime();
           }
         });

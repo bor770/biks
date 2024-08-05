@@ -11,36 +11,84 @@ export interface State {
 
 const initialState: State = {
   results: [
-    { grade: 11, studentId: 1, subject: `Mathematical logic and foundations` },
-    { grade: 22, studentId: 1, subject: `Combinatorics` },
     {
+      date: new Date(`2024-01-01`),
+      grade: 11,
+      studentId: 1,
+      subject: `Mathematical logic and foundations`,
+    },
+    {
+      date: new Date(`2024-02-02`),
+      grade: 22,
+      studentId: 1,
+      subject: `Combinatorics`,
+    },
+    {
+      date: new Date(`2024-03-03`),
       grade: 33,
       studentId: 1,
       subject: `Order, lattices, ordered algebraic structures`,
     },
-    { grade: 44, studentId: 2, subject: `General algebraic systems` },
-    { grade: 55, studentId: 2, subject: `Number theory` },
-    { grade: 66, studentId: 2, subject: `Field theory and polynomials` },
-    { grade: 77, studentId: 3, subject: `Commutative algebra` },
-    { grade: 88, studentId: 3, subject: `Algebraic geometry` },
     {
+      date: new Date(`2024-04-04`),
+      grade: 44,
+      studentId: 2,
+      subject: `General algebraic systems`,
+    },
+    {
+      date: new Date(`2024-05-05`),
+      grade: 55,
+      studentId: 2,
+      subject: `Number theory`,
+    },
+    {
+      date: new Date(`2024-06-06`),
+      grade: 66,
+      studentId: 2,
+      subject: `Field theory and polynomials`,
+    },
+    {
+      date: new Date(`2024-07-07`),
+      grade: 77,
+      studentId: 3,
+      subject: `Commutative algebra`,
+    },
+    {
+      date: new Date(`2024-08-08`),
+      grade: 88,
+      studentId: 3,
+      subject: `Algebraic geometry`,
+    },
+    {
+      date: new Date(`2024-09-09`),
       grade: 99,
       studentId: 3,
       subject: `Linear and multilinear algebra; matrix theory`,
     },
-    { grade: 100, studentId: 4, subject: `Associative rings and algebras` },
-    { grade: 0, studentId: 4, subject: `Nonassociative rings and algebras` },
     {
+      date: new Date(`2024-10-10`),
+      grade: 100,
+      studentId: 4,
+      subject: `Associative rings and algebras`,
+    },
+    {
+      date: new Date(`2024-11-11`),
+      grade: 0,
+      studentId: 4,
+      subject: `Nonassociative rings and algebras`,
+    },
+    {
+      date: new Date(`2024-12-12`),
       grade: 10,
       studentId: 4,
       subject: `Category theory; homological algebra`,
     },
   ],
   students: {
-    1: { dateJoined: new Date(`2024-01-01`), name: `Reuven` },
-    2: { dateJoined: new Date(`2024-02-02`), name: `Shimon ` },
-    3: { dateJoined: new Date(`2024-03-03`), name: `Levi` },
-    4: { dateJoined: new Date(`2024-04-04`), name: `Yehuda` },
+    1: { name: `Reuven` },
+    2: { name: `Shimon ` },
+    3: { name: `Levi` },
+    4: { name: `Yehuda` },
   },
 };
 
