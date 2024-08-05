@@ -11,6 +11,7 @@ import * as ResultsActions from '../../shared/results/store/results.actions';
 @Injectable()
 export class DataEffects {
   actions$ = inject(Actions);
+
   addDeployedResult = createEffect(() => {
     return this.actions$.pipe(
       ofType(DataActions.saveDeployedResult),

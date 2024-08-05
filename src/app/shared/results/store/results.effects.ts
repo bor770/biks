@@ -13,17 +13,21 @@ import * as ResultsSelectors from './results.selectors';
 export class ResultsEffects {
   actions$ = inject(Actions);
   store = inject(Store);
-  setSelectedRowOnAdd = createEffect(() => {
+
+  resetPageIndexOnAdd = createEffect(() => {
     return this.actions$.pipe(
       ofType(ResultsActions.add),
-      concatLatestFrom(() =>
-        this.store.select(ResultsSelectors.selectAmountOfResults),
-      ),
-      map(([, amountOfResults]) =>
-        DataActions.selectRow({ index: amountOfResults - 1 }),
-      ),
+      map(() => DataActions.pageEvent({ pageIndex: 0 })),
     );
   });
+
+  resetSelectedRowOnAdd = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ResultsActions.add),
+      map(() => DataActions.selectRow({ index: 0 })),
+    );
+  });
+
   resetSelectedRowOnRemove = createEffect(() => {
     return this.actions$.pipe(
       ofType(ResultsActions.remove),

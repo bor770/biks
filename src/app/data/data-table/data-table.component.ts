@@ -37,7 +37,7 @@ export class DataTableComponent implements OnInit {
   amountOfResults$!: Observable<number>;
   dataSource!: ResultsDataSource;
   displayedColumns = [`id`, `name`, `date`, `grade`, `subject`];
-  // pageIndex$!: Observable<number>;
+  pageIndex$!: Observable<number>;
   store = inject(Store);
   selectedRow$!: Observable<number>;
 
@@ -50,7 +50,7 @@ export class DataTableComponent implements OnInit {
     this.amountOfResults$ = store.select(
       DataSelectors.selectAmountOfFilteredResults,
     );
-    // this.pageIndex$ = store.select(DataSelectors.selectPageIndex);
+    this.pageIndex$ = store.select(DataSelectors.selectPageIndex);
     this.selectedRow$ = store.select(DataSelectors.selectSelectedRow);
   }
 

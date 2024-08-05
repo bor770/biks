@@ -53,7 +53,7 @@ export const selectFilteredResults = createSelector(
       return results;
     } else {
       const parsedFilter = parseFilter(filterString);
-
+      console.log(parsedFilter);
       if (parsedFilter) {
         const key = parsedFilter[0];
         const value = parsedFilter[1];
@@ -66,9 +66,9 @@ export const selectFilteredResults = createSelector(
               (!value.startsWith(`<`) && !value.startsWith(`>`))
             ) {
               return (
-                result?.[
-                  transformKey(key) as keyof typeof result
-                ]?.toString() === value
+                result?.[transformKey(key) as keyof typeof result]
+                  ?.toString()
+                  .toLowerCase() === value.toLowerCase()
               );
             } else {
               const grade = result?.grade;
