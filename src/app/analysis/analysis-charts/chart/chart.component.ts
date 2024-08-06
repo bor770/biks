@@ -13,4 +13,5 @@ export class ChartComponent {
   categories = input.required<(number | string)[]>();
   data = input.required<number[]>();
   heading = input.required<string>();
+  showChart = input.required<boolean>();
 }

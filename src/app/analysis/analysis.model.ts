@@ -1,7 +1,5 @@
-import { ApexAxisChartSeries, ApexChart, ApexXAxis } from 'ng-apexcharts';
-
-export interface ChartOptions {
-  chart: ApexChart;
-  series: ApexAxisChartSeries;
-  xAxis: ApexXAxis;
+export interface ChartData {
+  categoriesSelector: `ids` | `subjects`;
+  dataSelector: `averagesById` | `averagesBySubject`;
+  heading: string;
 }

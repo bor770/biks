@@ -1,30 +1,23 @@
-<ng-container
+<div
   *ngrxLet="{
     averagesById: averagesById$,
     averagesBySubject: averagesBySubject$,
     ids: ids$,
     subjects: subjects$,
   } as observables"
+  cdkDropList
+  class="charts-container"
+  (cdkDropListDropped)="drop($event)"
 >
-  @if (observables.ids.length) {
-    <app-chart
-      heading="Chart 1: Grades average over time for students with Id (for each student)"
-      [categories]="observables.ids"
-      [data]="observables.averagesById"
-    />
+  @for (chart of charts; track chart.heading; let i = $index) {
+    @if (observables[chart.categoriesSelector].length) {
+      <app-chart
+        cdkDrag
+        [heading]="chart.heading"
+        [categories]="observables[chart.categoriesSelector]"
+        [data]="observables[chart.dataSelector]"
+        [showChart]="i < charts.length - 1"
+      />
+    }
   }
-  @if (observables.ids.length) {
-    <app-chart
-      heading="Chart 2: Students averages for students with chosen Id"
-      [categories]="observables.ids"
-      [data]="observables.averagesById"
-    />
-  }
-  @if (observables.subjects.length) {
-    <app-chart
-      heading="Chart 3: Grades averages per subject"
-      [categories]="observables.subjects"
-      [data]="observables.averagesBySubject"
-    />
-  }
-</ng-container>
+</div>
