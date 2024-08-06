@@ -19,5 +19,5 @@ export const saveDeployedResult = createAction(
 
 export const selectRow = createAction(
   `[Data] Select Row`,
-  props<{ index: number }>(),
+  props<{ index: number; rowNumber: number }>(),
 );

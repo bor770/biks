@@ -25,12 +25,12 @@ import * as DataSelectors from './store/data.selectors';
 export class DataComponent implements OnInit {
   paginatedResults$!: Observable<DeployedResult[]>;
   selectedRow$!: Observable<number>;
-  store = inject(Store);
+  private store = inject(Store);
 
   ngOnInit(): void {
     const store = this.store;
 
     this.paginatedResults$ = store.select(DataSelectors.selectPaginatedResults);
-    this.selectedRow$ = store.select(DataSelectors.selectSelectedRow);
+    this.selectedRow$ = store.select(DataSelectors.selectSelectedRowNumber);
   }
 }

@@ -1,3 +1,7 @@
+export type AveragesById = Record<number, number>;
+
+export type AveragesBySubject = Record<string, number>;
+
 export interface Result {
   date: Date;
   grade: number;

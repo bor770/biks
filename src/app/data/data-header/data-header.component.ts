@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
-import { PAGE_SIZE } from '../data.model';
 import * as DataActions from '../store/data.actions';
 import * as DataSelectors from '../store/data.selectors';
 import * as ResultsActions from '../../shared/results/store/results.actions';
@@ -20,13 +19,13 @@ import * as ResultsActions from '../../shared/results/store/results.actions';
   styleUrl: './data-header.component.css',
 })
 export class DataHeaderComponent implements OnInit {
-  selectedRow$!: Observable<number>;
-  pageIndex$!: Observable<number>;
-  store = inject(Store);
+  selectedRowIndex$!: Observable<number>;
+  private store = inject(Store);
 
   ngOnInit(): void {
-    this.pageIndex$ = this.store.select(DataSelectors.selectPageIndex);
-    this.selectedRow$ = this.store.select(DataSelectors.selectSelectedRow);
+    this.selectedRowIndex$ = this.store.select(
+      DataSelectors.selectSelectedRowIndex,
+    );
   }
 
   onAdd() {
@@ -41,9 +40,7 @@ export class DataHeaderComponent implements OnInit {
     );
   }
 
-  onRemove(pageIndex: number, selectedRow: number) {
-    this.store.dispatch(
-      ResultsActions.remove({ index: pageIndex * PAGE_SIZE + selectedRow }),
-    );
+  onRemove(selectedRowIndex: number) {
+    this.store.dispatch(ResultsActions.remove({ index: selectedRowIndex }));
   }
 }

@@ -1,0 +1,14 @@
+<ng-container
+  *ngrxLet="{
+    averagesBySubject: averagesBySubject$,
+    subjectsToShow: subjectsToShow$,
+  } as observables"
+>
+  @if (observables.subjectsToShow.length) {
+    <apx-chart
+      [chart]="chart"
+      [series]="[{ data: observables.averagesBySubject }]"
+      [xaxis]="{ categories: observables.subjectsToShow }"
+    />
+  }
+</ng-container>

@@ -135,7 +135,12 @@ export const selectPaginatedResults = createSelector(
   },
 );
 
-export const selectSelectedRow = createSelector(
+export const selectSelectedRowIndex = createSelector(
+  selectState,
+  (state) => state.selectedRowIndex,
+);
+
+export const selectSelectedRowNumber = createSelector(
   selectState,
   (state) => state.selectedRow,
 );

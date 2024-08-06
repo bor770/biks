@@ -38,8 +38,8 @@ export class DataTableComponent implements OnInit {
   dataSource!: ResultsDataSource;
   displayedColumns = [`id`, `name`, `date`, `grade`, `subject`];
   pageIndex$!: Observable<number>;
-  store = inject(Store);
   selectedRow$!: Observable<number>;
+  private store = inject(Store);
 
   ngOnInit(): void {
     const store = this.store;
@@ -51,14 +51,14 @@ export class DataTableComponent implements OnInit {
       DataSelectors.selectAmountOfFilteredResults,
     );
     this.pageIndex$ = store.select(DataSelectors.selectPageIndex);
-    this.selectedRow$ = store.select(DataSelectors.selectSelectedRow);
+    this.selectedRow$ = store.select(DataSelectors.selectSelectedRowNumber);
   }
 
   onPageEvent(e: PageEvent) {
     this.store.dispatch(DataActions.pageEvent({ pageIndex: e.pageIndex }));
   }
 
-  onSelectRow(index: number) {
-    this.store.dispatch(DataActions.selectRow({ index }));
+  onSelectRow(index: number, rowNumber: number) {
+    this.store.dispatch(DataActions.selectRow({ index, rowNumber }));
   }
 }

@@ -35,7 +35,7 @@
       *matRowDef="let row; columns: displayedColumns; let i = index"
       mat-row
       [class.selected-row]="observables.selectedRow === i"
-      (click)="onSelectRow(i)"
+      (click)="onSelectRow(row.index, i)"
     ></tr>
   </table>
   <mat-paginator

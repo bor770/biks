@@ -6,9 +6,15 @@ export interface State {
   filterString: string;
   pageIndex: number;
   selectedRow: number;
+  selectedRowIndex: number;
 }
 
-const initalState: State = { filterString: ``, pageIndex: 0, selectedRow: -1 };
+const initalState: State = {
+  filterString: ``,
+  pageIndex: 0,
+  selectedRow: -1,
+  selectedRowIndex: -1,
+};
 
 export const reducer = createReducer(
   initalState,
@@ -19,6 +25,7 @@ export const reducer = createReducer(
       filterString: action.filterString,
       pageIndex: 0,
       selectedRow: -1,
+      selectedRowIndex: -1,
     }),
   ),
   on(
@@ -27,13 +34,15 @@ export const reducer = createReducer(
       ...state,
       pageIndex: action.pageIndex,
       selectedRow: -1,
+      selectedRowIndex: -1,
     }),
   ),
   on(
     DataActions.selectRow,
     (state, action): State => ({
       ...state,
-      selectedRow: action.index,
+      selectedRow: action.rowNumber,
+      selectedRowIndex: action.index,
     }),
   ),
 );

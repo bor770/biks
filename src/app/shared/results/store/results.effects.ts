@@ -24,7 +24,7 @@ export class ResultsEffects {
   resetSelectedRowOnAdd = createEffect(() => {
     return this.actions$.pipe(
       ofType(ResultsActions.add),
-      map(() => DataActions.selectRow({ index: 0 })),
+      map(() => DataActions.selectRow({ index: 0, rowNumber: 0 })),
     );
   });
 
@@ -35,7 +35,7 @@ export class ResultsEffects {
         this.store.select(ResultsSelectors.selectAmountOfResults),
       ),
       filter(([, amountOfResults]) => !amountOfResults),
-      map(() => DataActions.selectRow({ index: -1 })),
+      map(() => DataActions.selectRow({ index: -1, rowNumber: -1 })),
     );
   });
 }

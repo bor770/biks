@@ -16,7 +16,7 @@ import * as AnalysisActions from '../store/analysis.actions';
 })
 export class AnalysisHeaderComponent implements OnInit {
   form!: FormGroup;
-  store = inject(Store);
+  private store = inject(Store);
 
   ngOnInit(): void {
     this.form = new FormGroup({
