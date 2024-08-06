@@ -1,0 +1,6 @@
+<h2>{{ heading() }}</h2>
+<apx-chart
+  [chart]="{ type: 'bar' }"
+  [series]="[{ data: data() }]"
+  [xaxis]="{ categories: categories() }"
+/>

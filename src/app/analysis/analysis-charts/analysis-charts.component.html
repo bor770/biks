@@ -1,3 +1,30 @@
-<app-chart-1 />
-<app-chart-2 />
-<app-chart-3 />
+<ng-container
+  *ngrxLet="{
+    averagesById: averagesById$,
+    averagesBySubject: averagesBySubject$,
+    ids: ids$,
+    subjects: subjects$,
+  } as observables"
+>
+  @if (observables.ids.length) {
+    <app-chart
+      heading="Chart 1: Grades average over time for students with Id (for each student)"
+      [categories]="observables.ids"
+      [data]="observables.averagesById"
+    />
+  }
+  @if (observables.ids.length) {
+    <app-chart
+      heading="Chart 2: Students averages for students with chosen Id"
+      [categories]="observables.ids"
+      [data]="observables.averagesById"
+    />
+  }
+  @if (observables.subjects.length) {
+    <app-chart
+      heading="Chart 3: Grades averages per subject"
+      [categories]="observables.subjects"
+      [data]="observables.averagesBySubject"
+    />
+  }
+</ng-container>

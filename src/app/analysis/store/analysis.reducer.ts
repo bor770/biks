@@ -11,18 +11,22 @@ const initialState: State = { ids: [], subjects: [] };
 
 export const reducer = createReducer(
   initialState,
-  on(
-    AnalysisActions.setIds,
-    (state, action): State => ({
+  on(AnalysisActions.setIds, (state, action) => {
+    const ids = action.ids;
+
+    return {
       ...state,
-      ids: action.ids.split(`,`).map((id) => +id.trim()),
-    }),
-  ),
-  on(
-    AnalysisActions.setSubjects,
-    (state, action): State => ({
+      ids: ids.length ? ids.split(`,`).map((id) => +id.trim()) : [],
+    };
+  }),
+  on(AnalysisActions.setSubjects, (state, action) => {
+    const subjects = action.subjects;
+
+    return {
       ...state,
-      subjects: action.subjects.split(`,`).map((subject) => subject.trim()),
-    }),
-  ),
+      subjects: subjects.length
+        ? subjects.split(`,`).map((subject) => subject.trim())
+        : [],
+    };
+  }),
 );
