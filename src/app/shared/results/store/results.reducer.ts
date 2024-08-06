@@ -27,7 +27,7 @@ const initialState: State = {
       date: new Date(`2024-03-03`),
       grade: 33,
       studentId: 1,
-      subject: `Order, lattices, ordered algebraic structures`,
+      subject: `Order; lattices; ordered algebraic structures`,
     },
     {
       date: new Date(`2024-04-04`),
@@ -45,7 +45,7 @@ const initialState: State = {
       date: new Date(`2024-06-06`),
       grade: 66,
       studentId: 2,
-      subject: `Order, lattices, ordered algebraic structures`,
+      subject: `Order; lattices; ordered algebraic structures`,
     },
     {
       date: new Date(`2024-07-07`),
@@ -63,7 +63,7 @@ const initialState: State = {
       date: new Date(`2024-09-09`),
       grade: 99,
       studentId: 3,
-      subject: `Order, lattices, ordered algebraic structures`,
+      subject: `Order; lattices; ordered algebraic structures`,
     },
     {
       date: new Date(`2024-10-10`),
@@ -81,7 +81,7 @@ const initialState: State = {
       date: new Date(`2024-12-12`),
       grade: 10,
       studentId: 4,
-      subject: `Order, lattices, ordered algebraic structures`,
+      subject: `Order; lattices; ordered algebraic structures`,
     },
   ],
   students: {

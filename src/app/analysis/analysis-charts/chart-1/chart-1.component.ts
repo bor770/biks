@@ -16,7 +16,7 @@ import * as AnalysisSelectors from '../../store/analysis.selectors';
 })
 export class Chart1Component implements OnInit {
   averagesById$!: Observable<number[]>;
-  chart: ApexChart = { height: 350, type: `bar` };
+  chart: ApexChart = { type: `bar` };
   idsToShow$!: Observable<number[]>;
   private store = inject(Store);
 
