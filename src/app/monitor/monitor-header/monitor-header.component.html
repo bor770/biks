@@ -1,0 +1,13 @@
+<mat-form-field class="field">
+  <mat-label>Ids</mat-label>
+  <input matInput (keyup.enter)="onSetIds($event)" />
+</mat-form-field>
+<mat-form-field class="field">
+  <mat-label>Names</mat-label>
+  <input matInput (keyup.enter)="onSetNames($event)" />
+</mat-form-field>
+<div class="state">
+  <span class="label">State:</span>
+  <mat-checkbox checked (change)="onSetPassed($event)">Passed</mat-checkbox>
+  <mat-checkbox checked (change)="onSetFailed($event)">Failed</mat-checkbox>
+</div>

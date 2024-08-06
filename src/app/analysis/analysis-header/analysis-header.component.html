@@ -1,14 +1,8 @@
-<form [formGroup]="form">
-  <mat-form-field class="field">
-    <mat-label>Ids</mat-label>
-    <input matInput formControlName="ids" (keyup.enter)="onSetIds($event)" />
-  </mat-form-field>
-  <mat-form-field class="field">
-    <mat-label>Subjects</mat-label>
-    <input
-      matInput
-      formControlName="subjects"
-      (keyup.enter)="onSetSubjects($event)"
-    />
-  </mat-form-field>
-</form>
+<mat-form-field class="field">
+  <mat-label>Ids</mat-label>
+  <input matInput (keyup.enter)="onSetIds($event)" />
+</mat-form-field>
+<mat-form-field class="field">
+  <mat-label>Subjects</mat-label>
+  <input matInput (keyup.enter)="onSetSubjects($event)" />
+</mat-form-field>

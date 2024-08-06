@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
@@ -10,20 +9,12 @@ import * as AnalysisActions from '../store/analysis.actions';
 @Component({
   selector: 'app-analysis-header',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule],
+  imports: [MatFormFieldModule, MatInputModule],
   templateUrl: './analysis-header.component.html',
   styleUrl: './analysis-header.component.css',
 })
-export class AnalysisHeaderComponent implements OnInit {
-  form!: FormGroup;
+export class AnalysisHeaderComponent {
   private store = inject(Store);
-
-  ngOnInit(): void {
-    this.form = new FormGroup({
-      ids: new FormControl(),
-      subjects: new FormControl(),
-    });
-  }
 
   onSetIds(e: Event) {
     this.store.dispatch(

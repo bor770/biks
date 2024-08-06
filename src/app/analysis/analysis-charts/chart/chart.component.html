@@ -2,7 +2,7 @@
 @if (showChart()) {
   <apx-chart
     [chart]="{ type: 'bar' }"
-    [series]="[{ data: data() }]"
+    [series]="[{ data: data(), name: 'basic' }]"
     [xaxis]="{ categories: categories() }"
   />
 }

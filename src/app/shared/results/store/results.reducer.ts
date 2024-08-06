@@ -86,7 +86,7 @@ const initialState: State = {
   ],
   students: {
     1: { name: `Reuven` },
-    2: { name: `Shimon ` },
+    2: { name: `Shimon` },
     3: { name: `Levi` },
     4: { name: `Yehuda` },
   },

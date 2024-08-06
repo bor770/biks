@@ -11,7 +11,7 @@ const initialState: State = { ids: [], subjects: [] };
 
 export const reducer = createReducer(
   initialState,
-  on(AnalysisActions.setIds, (state, action) => {
+  on(AnalysisActions.setIds, (state, action): State => {
     const ids = action.ids;
 
     return {
@@ -19,7 +19,7 @@ export const reducer = createReducer(
       ids: ids.length ? ids.split(`,`).map((id) => +id.trim()) : [],
     };
   }),
-  on(AnalysisActions.setSubjects, (state, action) => {
+  on(AnalysisActions.setSubjects, (state, action): State => {
     const subjects = action.subjects;
 
     return {

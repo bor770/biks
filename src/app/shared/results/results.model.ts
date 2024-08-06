@@ -1,3 +1,5 @@
+export type AmountOfResultsById = Record<number, number>;
+
 export type AveragesById = Record<number, number>;
 
 export type AveragesBySubject = Record<string, number>;

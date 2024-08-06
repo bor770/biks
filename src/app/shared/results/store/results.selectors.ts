@@ -1,6 +1,12 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { AveragesById, AveragesBySubject, Result } from '../results.model';
+import {
+  AmountOfResultsById,
+  AveragesById,
+  AveragesBySubject,
+  Result,
+  Students,
+} from '../results.model';
 import { DeployedResult } from '../../../data/data.model';
 import * as fromResults from './results.reducer';
 
@@ -11,14 +17,27 @@ export const selectAmountOfResults = createSelector(
   (state) => state.results.length,
 );
 
-export const selectAveragesById = createSelector(
+export const selectExistingResults = createSelector(
   selectState,
-  (state): AveragesById => {
-    const results = state.results.filter(
-      (result) => result?.studentId,
-    ) as Result[];
+  (state): Result[] =>
+    state.results.filter((result) => result?.studentId) as Result[],
+);
 
-    return Object.fromEntries(
+export const selectAmountOfResultsById = createSelector(
+  selectExistingResults,
+  (results): AmountOfResultsById =>
+    Object.fromEntries(
+      [...new Set(results.map((result) => result.studentId))].map((id) => [
+        id,
+        results.filter((result) => result.studentId === id).length,
+      ]),
+    ),
+);
+
+export const selectAveragesById = createSelector(
+  selectExistingResults,
+  (results): AveragesById =>
+    Object.fromEntries(
       [...new Set(results.map((result) => result.studentId))].map((id) => {
         const relevantResults = results.filter(
           (result) => result.studentId === id,
@@ -31,16 +50,13 @@ export const selectAveragesById = createSelector(
             .reduce((a, b) => a + b) / relevantResults.length,
         ];
       }),
-    );
-  },
+    ),
 );
 
 export const selectAveragesBySubject = createSelector(
-  selectState,
-  (state): AveragesBySubject => {
-    const results = state.results.filter((result) => result?.grade) as Result[];
-
-    return Object.fromEntries(
+  selectExistingResults,
+  (results): AveragesBySubject =>
+    Object.fromEntries(
       [...new Set(results.map((result) => result.subject))].map((subject) => {
         const relevantResults = results.filter(
           (result) => result.subject === subject,
@@ -53,8 +69,7 @@ export const selectAveragesBySubject = createSelector(
             .reduce((a, b) => a + b) / relevantResults.length,
         ];
       }),
-    );
-  },
+    ),
 );
 
 export const selectDeployedResults = createSelector(selectState, (state) =>
@@ -68,8 +83,19 @@ export const selectDeployedResults = createSelector(selectState, (state) =>
   ),
 );
 
-export const selectIds = createSelector(selectState, (state): number[] =>
-  (state.results.filter((result) => result?.studentId) as Result[])
-    .map((result) => result?.studentId)
-    .sort(),
+export const selectIds = createSelector(
+  selectExistingResults,
+  (results): number[] => [
+    ...new Set(results.map((result) => result?.studentId)),
+  ],
+);
+
+export const selectStudentsData = createSelector(
+  selectState,
+  (state): Students => state.students,
+);
+
+export const selectSubjects = createSelector(
+  selectExistingResults,
+  (results): string[] => [...new Set(results.map((result) => result.subject))],
 );
