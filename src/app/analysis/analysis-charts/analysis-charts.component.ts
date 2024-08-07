@@ -25,6 +25,7 @@ export class AnalysisChartsComponent implements OnInit {
   averagesById$!: Observable<number[]>;
   averagesBySubject$!: Observable<number[]>;
   charts: ChartData[] = [
+    // I didn't understant the difference between Chart1 and Chart2, so I did them both the same
     {
       categoriesSelector: `ids`,
       dataSelector: `averagesById`,
@@ -41,8 +42,8 @@ export class AnalysisChartsComponent implements OnInit {
       heading: `Chart 3: Grades averages per subject`,
     },
   ];
-  ids$!: Observable<number[]>;
-  subjects$!: Observable<string[]>;
+  ids$!: Observable<number[]>; // Ids from filter (or all if filter is empty)
+  subjects$!: Observable<string[]>; // Subjects from filter (or all if filter is empty)
   private store = inject(Store);
 
   ngOnInit(): void {

@@ -25,6 +25,7 @@ export const selectFilteredResults = createSelector(
         name: students[id].name!,
       }))
       .filter(
+        // Filtering the full results. The first two filters (ids and names) are: only display a result, if BOTH it's id and name are in the filters. The last two filters (passed and failed) are: only display passed results is Passed is checked, and similarly for failed.
         (row) =>
           (filterIds.length ? filterIds.includes(row.id) : true) &&
           (filterNames.length ? filterNames.includes(row.name) : true) &&

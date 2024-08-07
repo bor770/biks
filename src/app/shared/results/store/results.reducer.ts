@@ -1,15 +1,16 @@
 import { createReducer, on } from '@ngrx/store';
 
 import { Result, Students } from '../results.model';
-import { pick } from '../../util/pick';
+import { pick } from '../../util/functions';
 import * as ResultsActions from './results.actions';
 
 export interface State {
-  results: (Result | undefined)[];
+  results: (Result | undefined)[]; // A result can be empty, when an empty row is added to the data table
   students: Students;
 }
 
 const initialState: State = {
+  // Some initial data
   results: [
     {
       date: new Date(`2024-01-01`),
@@ -85,10 +86,10 @@ const initialState: State = {
     },
   ],
   students: {
-    1: { name: `Reuven` },
+    1: { name: `Ruven` },
     2: { name: `Shimon` },
     3: { name: `Levi` },
-    4: { name: `Yehuda` },
+    4: { name: `Yhuda` },
   },
 };
 
@@ -98,7 +99,7 @@ export const reducer = createReducer(
     ResultsActions.add,
     (state): State => ({
       ...state,
-      results: ([undefined] as State['results']).concat(state.results),
+      results: ([undefined] as State['results']).concat(state.results), // Add an empty row in the beginning
     }),
   ),
   on(ResultsActions.remove, (state, action): State => {
@@ -108,8 +109,11 @@ export const reducer = createReducer(
       ...state,
       results: newResults,
       students: pick(
+        // If all the results of this student are removed, the student itself is removed
         state.students,
-        newResults.map((result) => String(result?.studentId)),
+        newResults
+          .filter((result) => result?.studentId)
+          .map((result) => result!.studentId),
       ),
     };
   }),
@@ -123,7 +127,7 @@ export const reducer = createReducer(
       ),
       students: {
         ...state.students,
-        [newResult.studentId]: action.newStudentData,
+        [newResult.studentId]: action.newStudentData, // A student's data is updated whenever a result is saved
       },
     };
   }),

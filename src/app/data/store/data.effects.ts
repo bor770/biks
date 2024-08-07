@@ -4,7 +4,7 @@ import { map } from 'rxjs';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { Result } from '../../shared/results/results.model';
-import { pick } from '../../shared/util/pick';
+import { pick } from '../../shared/util/functions';
 import * as DataActions from './data.actions';
 import * as ResultsActions from '../../shared/results/store/results.actions';
 
@@ -13,6 +13,7 @@ export class DataEffects {
   actions$ = inject(Actions);
 
   addDeployedResult = createEffect(() => {
+    // Transform the DataActions.saveDeployedResult action, which accepts a result in the deployed format to a ResultsActions.save action
     return this.actions$.pipe(
       ofType(DataActions.saveDeployedResult),
       map((action) => {

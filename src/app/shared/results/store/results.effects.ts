@@ -29,6 +29,7 @@ export class ResultsEffects {
   });
 
   resetSelectedRowOnRemove = createEffect(() => {
+    // If no results left, index and rowNumber are reset
     return this.actions$.pipe(
       ofType(ResultsActions.remove),
       concatLatestFrom(() =>

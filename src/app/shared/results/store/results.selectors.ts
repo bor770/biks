@@ -10,6 +10,26 @@ import {
 import { DeployedResult } from '../../../data/data.model';
 import * as fromResults from './results.reducer';
 
+const getDataByResultsProperty = (
+  // Creates a record of certain result data by a specified key
+  // The trick is to first get an array of distinct values for the specified key, and then to map if with mapFunction
+  results: Result[],
+  key: keyof Result,
+  mapFunction: (arg: Result[typeof key]) => unknown,
+) =>
+  Object.fromEntries(
+    [...new Set(results.map((result) => result[key]))].map((key) => [
+      key,
+      mapFunction(key),
+    ]),
+  );
+
+const getRelevantResultsByProperty = (
+  results: Result[],
+  key: keyof Result,
+  value: Result[typeof key],
+) => results.filter((result) => result[key] === value);
+
 export const selectState = createFeatureSelector<fromResults.State>(`results`);
 
 export const selectAmountOfResults = createSelector(
@@ -17,61 +37,58 @@ export const selectAmountOfResults = createSelector(
   (state) => state.results.length,
 );
 
-export const selectExistingResults = createSelector(
+export const selectNonEmptyResults = createSelector(
+  // Selecting only non-empty rows
   selectState,
   (state): Result[] =>
     state.results.filter((result) => result?.studentId) as Result[],
 );
 
 export const selectAmountOfResultsById = createSelector(
-  selectExistingResults,
+  selectNonEmptyResults,
   (results): AmountOfResultsById =>
-    Object.fromEntries(
-      [...new Set(results.map((result) => result.studentId))].map((id) => [
-        id,
-        results.filter((result) => result.studentId === id).length,
-      ]),
+    getDataByResultsProperty(
+      results,
+      `studentId`,
+      (id) => getRelevantResultsByProperty(results, `studentId`, id).length,
     ),
 );
 
 export const selectAveragesById = createSelector(
-  selectExistingResults,
+  selectNonEmptyResults,
   (results): AveragesById =>
-    Object.fromEntries(
-      [...new Set(results.map((result) => result.studentId))].map((id) => {
-        const relevantResults = results.filter(
-          (result) => result.studentId === id,
-        );
+    getDataByResultsProperty(results, `studentId`, (id) => {
+      const relevantResults = getRelevantResultsByProperty(
+        results,
+        `studentId`,
+        id,
+      );
 
-        return [
-          id,
-          relevantResults
-            .map((result) => result.grade)
-            .reduce((a, b) => a + b) / relevantResults.length,
-        ];
-      }),
-    ),
+      return (
+        relevantResults.map((result) => result.grade).reduce((a, b) => a + b) /
+        relevantResults.length
+      );
+    }),
 );
 
 export const selectAveragesBySubject = createSelector(
-  selectExistingResults,
+  selectNonEmptyResults,
   (results): AveragesBySubject =>
-    Object.fromEntries(
-      [...new Set(results.map((result) => result.subject))].map((subject) => {
-        const relevantResults = results.filter(
-          (result) => result.subject === subject,
-        );
+    getDataByResultsProperty(results, `subject`, (subject) => {
+      const relevantResults = getRelevantResultsByProperty(
+        results,
+        `subject`,
+        subject,
+      );
 
-        return [
-          subject,
-          relevantResults
-            .map((result) => result.grade)
-            .reduce((a, b) => a + b) / relevantResults.length,
-        ];
-      }),
-    ),
+      return (
+        relevantResults.map((result) => result.grade).reduce((a, b) => a + b) /
+        relevantResults.length
+      );
+    }),
 );
 
+// The format used for the Data Component, with the Student Data "deployed" inside. Even in the case of an empty result, we keep the index
 export const selectDeployedResults = createSelector(selectState, (state) =>
   state.results.map(
     (result, index): DeployedResult => ({
@@ -84,7 +101,8 @@ export const selectDeployedResults = createSelector(selectState, (state) =>
 );
 
 export const selectIds = createSelector(
-  selectExistingResults,
+  // Distinct students ids
+  selectNonEmptyResults,
   (results): number[] => [
     ...new Set(results.map((result) => result?.studentId)),
   ],
@@ -96,6 +114,7 @@ export const selectStudentsData = createSelector(
 );
 
 export const selectSubjects = createSelector(
-  selectExistingResults,
+  // Distinct subjects
+  selectNonEmptyResults,
   (results): string[] => [...new Set(results.map((result) => result.subject))],
 );

@@ -31,9 +31,9 @@ import * as DataActions from '../store/data.actions';
 export class DataDetailsComponent implements OnInit {
   result = input.required<DeployedResult>();
   form!: FormGroup;
-  selectedRow = input.required<number>();
 
   constructor(private store: Store) {
+    // Update form fields when a new row is selected
     effect(() => {
       const formControls = this.form.controls;
       const result = this.result();

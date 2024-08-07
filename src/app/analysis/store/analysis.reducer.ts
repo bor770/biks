@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 
 import * as AnalysisActions from './analysis.actions';
+import { split } from '../../shared/util/functions';
 
 export interface State {
   ids: number[];
@@ -11,22 +12,18 @@ const initialState: State = { ids: [], subjects: [] };
 
 export const reducer = createReducer(
   initialState,
-  on(AnalysisActions.setIds, (state, action): State => {
-    const ids = action.ids;
-
-    return {
+  on(
+    AnalysisActions.setIds,
+    (state, action): State => ({
       ...state,
-      ids: ids.length ? ids.split(`,`).map((id) => +id.trim()) : [],
-    };
-  }),
-  on(AnalysisActions.setSubjects, (state, action): State => {
-    const subjects = action.subjects;
-
-    return {
+      ids: split(action.ids, (value) => +value) as number[],
+    }),
+  ),
+  on(
+    AnalysisActions.setSubjects,
+    (state, action): State => ({
       ...state,
-      subjects: subjects.length
-        ? subjects.split(`,`).map((subject) => subject.trim())
-        : [],
-    };
-  }),
+      subjects: split(action.subjects) as string[],
+    }),
+  ),
 );

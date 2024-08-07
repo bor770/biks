@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 
+import { split } from '../../shared/util/functions';
 import * as MonitorActions from './monitor.actions';
 
 export interface State {
@@ -17,22 +18,20 @@ export const reducer = createReducer(
     MonitorActions.setFailed,
     (state, action): State => ({ ...state, failed: action.failed }),
   ),
-  on(MonitorActions.setIds, (state, action): State => {
-    const ids = action.ids;
-
-    return {
+  on(
+    MonitorActions.setIds,
+    (state, action): State => ({
       ...state,
-      ids: ids.length ? ids.split(`,`).map((id) => +id.trim()) : [],
-    };
-  }),
-  on(MonitorActions.setNames, (state, action): State => {
-    const names = action.names;
-
-    return {
+      ids: split(action.ids, (value) => +value) as number[],
+    }),
+  ),
+  on(
+    MonitorActions.setNames,
+    (state, action): State => ({
       ...state,
-      names: names.length ? names.split(`,`).map((name) => name.trim()) : [],
-    };
-  }),
+      names: split(action.names) as string[],
+    }),
+  ),
   on(
     MonitorActions.setPassed,
     (state, action): State => ({ ...state, passed: action.passed }),

@@ -11,6 +11,7 @@
 >
   @for (chart of charts; track chart.heading; let i = $index) {
     @if (observables[chart.categoriesSelector].length) {
+      <!-- Only display chart if there's any data. For the last chart, only the heading is shown, as required -->
       <app-chart
         cdkDrag
         [heading]="chart.heading"
