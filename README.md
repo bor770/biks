@@ -10,4 +10,6 @@ The state slices are:
 
 - monitor: the filters: ids, names, failed (boolean) and passed (boolean).
 
-All of the filtering is done in the selectors, the components only present the data and update the data andgit  filters by dipatching actions.
+All of the filtering is done in the selectors, the components only present the data and update the data andgit filters by dipatching actions.
+
+Deployed URL: https://biks-senior-web-developer-task.web.app/
